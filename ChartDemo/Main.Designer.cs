@@ -28,142 +28,144 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea1 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
-            System.Windows.Forms.DataVisualization.Charting.Legend legend1 = new System.Windows.Forms.DataVisualization.Charting.Legend();
-            System.Windows.Forms.DataVisualization.Charting.Series series1 = new System.Windows.Forms.DataVisualization.Charting.Series();
-            System.Windows.Forms.DataVisualization.Charting.Series series2 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea2 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
+            System.Windows.Forms.DataVisualization.Charting.Legend legend2 = new System.Windows.Forms.DataVisualization.Charting.Legend();
+            System.Windows.Forms.DataVisualization.Charting.Series series3 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataVisualization.Charting.Series series4 = new System.Windows.Forms.DataVisualization.Charting.Series();
             mainChart = new System.Windows.Forms.DataVisualization.Charting.Chart();
-            groupBox1 = new GroupBox();
+            rangeSeries = new GroupBox();
             rangeLabel = new Label();
             label3 = new Label();
             label2 = new Label();
             label1 = new Label();
-            hInput = new TextBox();
-            bInput = new TextBox();
-            aInput = new TextBox();
+            stepInput = new TextBox();
+            endRangeInput = new TextBox();
+            startRangeInput = new TextBox();
             buildButton = new Button();
-            groupBox2 = new GroupBox();
+            seriesGroupBox = new GroupBox();
             label4 = new Label();
             chartTypeComboBox = new ComboBox();
             randomCheckBox = new CheckBox();
             customCheckBox = new CheckBox();
             ((System.ComponentModel.ISupportInitialize)mainChart).BeginInit();
-            groupBox1.SuspendLayout();
-            groupBox2.SuspendLayout();
+            rangeSeries.SuspendLayout();
+            seriesGroupBox.SuspendLayout();
             SuspendLayout();
             // 
             // mainChart
             // 
-            chartArea1.AxisX.ArrowStyle = System.Windows.Forms.DataVisualization.Charting.AxisArrowStyle.Lines;
-            chartArea1.AxisX.Crossing = 0D;
-            chartArea1.AxisX.MajorGrid.Enabled = false;
-            chartArea1.AxisX.MinorTickMark.Enabled = true;
-            chartArea1.AxisX.Title = "X";
-            chartArea1.AxisY.ArrowStyle = System.Windows.Forms.DataVisualization.Charting.AxisArrowStyle.Lines;
-            chartArea1.AxisY.Crossing = 0D;
-            chartArea1.AxisY.MajorGrid.Enabled = false;
-            chartArea1.AxisY.MinorTickMark.Enabled = true;
-            chartArea1.AxisY.TextOrientation = System.Windows.Forms.DataVisualization.Charting.TextOrientation.Horizontal;
-            chartArea1.AxisY.Title = "Y";
-            chartArea1.BackColor = Color.Transparent;
-            chartArea1.Name = "ChartArea1";
-            mainChart.ChartAreas.Add(chartArea1);
-            legend1.Name = "Legend1";
-            mainChart.Legends.Add(legend1);
+            chartArea2.AxisX.ArrowStyle = System.Windows.Forms.DataVisualization.Charting.AxisArrowStyle.Lines;
+            chartArea2.AxisX.Crossing = 0D;
+            chartArea2.AxisX.MajorGrid.Enabled = false;
+            chartArea2.AxisX.MinorTickMark.Enabled = true;
+            chartArea2.AxisX.Title = "X";
+            chartArea2.AxisY.ArrowStyle = System.Windows.Forms.DataVisualization.Charting.AxisArrowStyle.Lines;
+            chartArea2.AxisY.Crossing = 0D;
+            chartArea2.AxisY.MajorGrid.Enabled = false;
+            chartArea2.AxisY.MinorTickMark.Enabled = true;
+            chartArea2.AxisY.TextOrientation = System.Windows.Forms.DataVisualization.Charting.TextOrientation.Horizontal;
+            chartArea2.AxisY.Title = "Y";
+            chartArea2.BackColor = Color.Transparent;
+            chartArea2.Name = "ChartArea1";
+            mainChart.ChartAreas.Add(chartArea2);
+            legend2.Name = "Legend1";
+            mainChart.Legends.Add(legend2);
             mainChart.Location = new Point(12, 12);
             mainChart.Name = "mainChart";
-            series1.BorderWidth = 5;
-            series1.ChartArea = "ChartArea1";
-            series1.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Spline;
-            series1.Color = Color.Navy;
-            series1.Legend = "Legend1";
-            series1.Name = "Custom";
-            series2.BorderWidth = 5;
-            series2.ChartArea = "ChartArea1";
-            series2.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Spline;
-            series2.Color = Color.FromArgb(255, 128, 0);
-            series2.Legend = "Legend1";
-            series2.Name = "Random";
-            mainChart.Series.Add(series1);
-            mainChart.Series.Add(series2);
+            series3.BorderWidth = 5;
+            series3.ChartArea = "ChartArea1";
+            series3.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Spline;
+            series3.Color = Color.Navy;
+            series3.Legend = "Legend1";
+            series3.Name = "Custom";
+            series4.BorderWidth = 5;
+            series4.ChartArea = "ChartArea1";
+            series4.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Spline;
+            series4.Color = Color.FromArgb(255, 128, 0);
+            series4.Legend = "Legend1";
+            series4.Name = "Random";
+            mainChart.Series.Add(series3);
+            mainChart.Series.Add(series4);
             mainChart.Size = new Size(902, 872);
             mainChart.TabIndex = 0;
             mainChart.Text = "chart1";
             // 
-            // groupBox1
+            // rangeSeries
             // 
-            groupBox1.BackColor = SystemColors.Control;
-            groupBox1.Controls.Add(rangeLabel);
-            groupBox1.Controls.Add(label3);
-            groupBox1.Controls.Add(label2);
-            groupBox1.Controls.Add(label1);
-            groupBox1.Controls.Add(hInput);
-            groupBox1.Controls.Add(bInput);
-            groupBox1.Controls.Add(aInput);
-            groupBox1.Location = new Point(930, 12);
-            groupBox1.Name = "groupBox1";
-            groupBox1.Size = new Size(360, 259);
-            groupBox1.TabIndex = 1;
-            groupBox1.TabStop = false;
-            groupBox1.Text = "Range";
+            rangeSeries.BackColor = SystemColors.Control;
+            rangeSeries.Controls.Add(rangeLabel);
+            rangeSeries.Controls.Add(label3);
+            rangeSeries.Controls.Add(label2);
+            rangeSeries.Controls.Add(label1);
+            rangeSeries.Controls.Add(stepInput);
+            rangeSeries.Controls.Add(endRangeInput);
+            rangeSeries.Controls.Add(startRangeInput);
+            rangeSeries.Location = new Point(930, 12);
+            rangeSeries.Name = "rangeSeries";
+            rangeSeries.Size = new Size(360, 259);
+            rangeSeries.TabIndex = 1;
+            rangeSeries.TabStop = false;
+            rangeSeries.Text = "Range";
             // 
             // rangeLabel
             // 
             rangeLabel.AutoSize = true;
             rangeLabel.Location = new Point(30, 220);
             rangeLabel.Name = "rangeLabel";
-            rangeLabel.Size = new Size(28, 15);
+            rangeLabel.Size = new Size(0, 15);
             rangeLabel.TabIndex = 6;
-            rangeLabel.Text = "Text";
             rangeLabel.Visible = false;
             // 
             // label3
             // 
             label3.AutoSize = true;
-            label3.Location = new Point(30, 180);
+            label3.Location = new Point(30, 185);
             label3.Name = "label3";
-            label3.Size = new Size(16, 15);
+            label3.Size = new Size(33, 15);
             label3.TabIndex = 5;
-            label3.Text = "H";
+            label3.Text = "Step:";
             // 
             // label2
             // 
             label2.AutoSize = true;
             label2.Location = new Point(29, 127);
             label2.Name = "label2";
-            label2.Size = new Size(14, 15);
+            label2.Size = new Size(66, 15);
             label2.TabIndex = 4;
-            label2.Text = "B";
+            label2.Text = "End range: ";
             // 
             // label1
             // 
             label1.AutoSize = true;
             label1.Location = new Point(29, 72);
             label1.Name = "label1";
-            label1.Size = new Size(15, 15);
+            label1.Size = new Size(67, 15);
             label1.TabIndex = 3;
-            label1.Text = "A";
+            label1.Text = "Start range:";
             // 
-            // hInput
+            // stepInput
             // 
-            hInput.Location = new Point(49, 172);
-            hInput.Name = "hInput";
-            hInput.Size = new Size(100, 23);
-            hInput.TabIndex = 2;
+            stepInput.Location = new Point(102, 177);
+            stepInput.Name = "stepInput";
+            stepInput.Size = new Size(100, 23);
+            stepInput.TabIndex = 2;
+            stepInput.Text = "1";
             // 
-            // bInput
+            // endRangeInput
             // 
-            bInput.Location = new Point(49, 119);
-            bInput.Name = "bInput";
-            bInput.Size = new Size(100, 23);
-            bInput.TabIndex = 1;
+            endRangeInput.Location = new Point(102, 119);
+            endRangeInput.Name = "endRangeInput";
+            endRangeInput.Size = new Size(100, 23);
+            endRangeInput.TabIndex = 1;
+            endRangeInput.Text = "10";
             // 
-            // aInput
+            // startRangeInput
             // 
-            aInput.Location = new Point(50, 64);
-            aInput.Name = "aInput";
-            aInput.Size = new Size(100, 23);
-            aInput.TabIndex = 0;
+            startRangeInput.Location = new Point(102, 64);
+            startRangeInput.Name = "startRangeInput";
+            startRangeInput.Size = new Size(100, 23);
+            startRangeInput.TabIndex = 0;
+            startRangeInput.Text = "-10";
             // 
             // buildButton
             // 
@@ -175,18 +177,18 @@
             buildButton.UseVisualStyleBackColor = true;
             buildButton.Click += buildButton_Click;
             // 
-            // groupBox2
+            // seriesGroupBox
             // 
-            groupBox2.Controls.Add(label4);
-            groupBox2.Controls.Add(chartTypeComboBox);
-            groupBox2.Controls.Add(randomCheckBox);
-            groupBox2.Controls.Add(customCheckBox);
-            groupBox2.Location = new Point(930, 277);
-            groupBox2.Name = "groupBox2";
-            groupBox2.Size = new Size(360, 152);
-            groupBox2.TabIndex = 3;
-            groupBox2.TabStop = false;
-            groupBox2.Text = "Series Configuration";
+            seriesGroupBox.Controls.Add(label4);
+            seriesGroupBox.Controls.Add(chartTypeComboBox);
+            seriesGroupBox.Controls.Add(randomCheckBox);
+            seriesGroupBox.Controls.Add(customCheckBox);
+            seriesGroupBox.Location = new Point(930, 277);
+            seriesGroupBox.Name = "seriesGroupBox";
+            seriesGroupBox.Size = new Size(360, 152);
+            seriesGroupBox.TabIndex = 3;
+            seriesGroupBox.TabStop = false;
+            seriesGroupBox.Text = "Series Configuration";
             // 
             // label4
             // 
@@ -234,32 +236,32 @@
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(1302, 896);
-            Controls.Add(groupBox2);
+            Controls.Add(seriesGroupBox);
             Controls.Add(buildButton);
-            Controls.Add(groupBox1);
+            Controls.Add(rangeSeries);
             Controls.Add(mainChart);
             Name = "Main";
             Text = "Main";
             ((System.ComponentModel.ISupportInitialize)mainChart).EndInit();
-            groupBox1.ResumeLayout(false);
-            groupBox1.PerformLayout();
-            groupBox2.ResumeLayout(false);
-            groupBox2.PerformLayout();
+            rangeSeries.ResumeLayout(false);
+            rangeSeries.PerformLayout();
+            seriesGroupBox.ResumeLayout(false);
+            seriesGroupBox.PerformLayout();
             ResumeLayout(false);
         }
 
         #endregion
 
         private System.Windows.Forms.DataVisualization.Charting.Chart mainChart;
-        private GroupBox groupBox1;
+        private GroupBox rangeSeries;
         private Label label3;
         private Label label2;
         private Label label1;
-        private TextBox hInput;
-        private TextBox bInput;
-        private TextBox aInput;
+        private TextBox stepInput;
+        private TextBox endRangeInput;
+        private TextBox startRangeInput;
         private Button buildButton;
-        private GroupBox groupBox2;
+        private GroupBox seriesGroupBox;
         private CheckBox randomCheckBox;
         private CheckBox customCheckBox;
         private Label rangeLabel;
