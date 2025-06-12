@@ -28,10 +28,11 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea2 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
-            System.Windows.Forms.DataVisualization.Charting.Legend legend2 = new System.Windows.Forms.DataVisualization.Charting.Legend();
+            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea1 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
+            System.Windows.Forms.DataVisualization.Charting.Legend legend1 = new System.Windows.Forms.DataVisualization.Charting.Legend();
+            System.Windows.Forms.DataVisualization.Charting.Series series1 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataVisualization.Charting.Series series2 = new System.Windows.Forms.DataVisualization.Charting.Series();
             System.Windows.Forms.DataVisualization.Charting.Series series3 = new System.Windows.Forms.DataVisualization.Charting.Series();
-            System.Windows.Forms.DataVisualization.Charting.Series series4 = new System.Windows.Forms.DataVisualization.Charting.Series();
             mainChart = new System.Windows.Forms.DataVisualization.Charting.Chart();
             rangeSeries = new GroupBox();
             rangeLabel = new Label();
@@ -43,50 +44,65 @@
             startRangeInput = new TextBox();
             buildButton = new Button();
             seriesGroupBox = new GroupBox();
+            linearCheckBox = new CheckBox();
             label4 = new Label();
             chartTypeComboBox = new ComboBox();
             randomCheckBox = new CheckBox();
             customCheckBox = new CheckBox();
+            menuStrip1 = new MenuStrip();
+            fileToolStripMenuItem = new ToolStripMenuItem();
+            openToolStripMenuItem = new ToolStripMenuItem();
+            saveToolStripMenuItem = new ToolStripMenuItem();
+            instructionsToolStripMenuItem = new ToolStripMenuItem();
             ((System.ComponentModel.ISupportInitialize)mainChart).BeginInit();
             rangeSeries.SuspendLayout();
             seriesGroupBox.SuspendLayout();
+            menuStrip1.SuspendLayout();
             SuspendLayout();
             // 
             // mainChart
             // 
-            chartArea2.AxisX.ArrowStyle = System.Windows.Forms.DataVisualization.Charting.AxisArrowStyle.Lines;
-            chartArea2.AxisX.Crossing = 0D;
-            chartArea2.AxisX.MajorGrid.Enabled = false;
-            chartArea2.AxisX.MinorTickMark.Enabled = true;
-            chartArea2.AxisX.Title = "X";
-            chartArea2.AxisY.ArrowStyle = System.Windows.Forms.DataVisualization.Charting.AxisArrowStyle.Lines;
-            chartArea2.AxisY.Crossing = 0D;
-            chartArea2.AxisY.MajorGrid.Enabled = false;
-            chartArea2.AxisY.MinorTickMark.Enabled = true;
-            chartArea2.AxisY.TextOrientation = System.Windows.Forms.DataVisualization.Charting.TextOrientation.Horizontal;
-            chartArea2.AxisY.Title = "Y";
-            chartArea2.BackColor = Color.Transparent;
-            chartArea2.Name = "ChartArea1";
-            mainChart.ChartAreas.Add(chartArea2);
-            legend2.Name = "Legend1";
-            mainChart.Legends.Add(legend2);
-            mainChart.Location = new Point(12, 12);
+            chartArea1.AxisX.ArrowStyle = System.Windows.Forms.DataVisualization.Charting.AxisArrowStyle.Lines;
+            chartArea1.AxisX.Crossing = 0D;
+            chartArea1.AxisX.MajorGrid.Enabled = false;
+            chartArea1.AxisX.MinorTickMark.Enabled = true;
+            chartArea1.AxisX.Title = "X";
+            chartArea1.AxisY.ArrowStyle = System.Windows.Forms.DataVisualization.Charting.AxisArrowStyle.Lines;
+            chartArea1.AxisY.Crossing = 0D;
+            chartArea1.AxisY.MajorGrid.Enabled = false;
+            chartArea1.AxisY.MinorTickMark.Enabled = true;
+            chartArea1.AxisY.TextOrientation = System.Windows.Forms.DataVisualization.Charting.TextOrientation.Horizontal;
+            chartArea1.AxisY.Title = "Y";
+            chartArea1.BackColor = Color.Transparent;
+            chartArea1.Name = "ChartArea1";
+            mainChart.ChartAreas.Add(chartArea1);
+            legend1.Name = "Legend1";
+            mainChart.Legends.Add(legend1);
+            mainChart.Location = new Point(12, 27);
             mainChart.Name = "mainChart";
+            series1.BorderWidth = 5;
+            series1.ChartArea = "ChartArea1";
+            series1.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Spline;
+            series1.Color = Color.Navy;
+            series1.Legend = "Legend1";
+            series1.Name = "Custom";
+            series2.BorderWidth = 5;
+            series2.ChartArea = "ChartArea1";
+            series2.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Spline;
+            series2.Color = Color.FromArgb(255, 128, 0);
+            series2.Legend = "Legend1";
+            series2.Name = "Random";
+            series3.BorderColor = Color.Transparent;
             series3.BorderWidth = 5;
             series3.ChartArea = "ChartArea1";
             series3.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Spline;
-            series3.Color = Color.Navy;
+            series3.Color = Color.Green;
             series3.Legend = "Legend1";
-            series3.Name = "Custom";
-            series4.BorderWidth = 5;
-            series4.ChartArea = "ChartArea1";
-            series4.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Spline;
-            series4.Color = Color.FromArgb(255, 128, 0);
-            series4.Legend = "Legend1";
-            series4.Name = "Random";
+            series3.Name = "y = cos (x)";
+            mainChart.Series.Add(series1);
+            mainChart.Series.Add(series2);
             mainChart.Series.Add(series3);
-            mainChart.Series.Add(series4);
-            mainChart.Size = new Size(902, 872);
+            mainChart.Size = new Size(902, 857);
             mainChart.TabIndex = 0;
             mainChart.Text = "chart1";
             // 
@@ -100,9 +116,9 @@
             rangeSeries.Controls.Add(stepInput);
             rangeSeries.Controls.Add(endRangeInput);
             rangeSeries.Controls.Add(startRangeInput);
-            rangeSeries.Location = new Point(930, 12);
+            rangeSeries.Location = new Point(930, 27);
             rangeSeries.Name = "rangeSeries";
-            rangeSeries.Size = new Size(360, 259);
+            rangeSeries.Size = new Size(360, 244);
             rangeSeries.TabIndex = 1;
             rangeSeries.TabStop = false;
             rangeSeries.Text = "Range";
@@ -179,21 +195,32 @@
             // 
             // seriesGroupBox
             // 
+            seriesGroupBox.Controls.Add(linearCheckBox);
             seriesGroupBox.Controls.Add(label4);
             seriesGroupBox.Controls.Add(chartTypeComboBox);
             seriesGroupBox.Controls.Add(randomCheckBox);
             seriesGroupBox.Controls.Add(customCheckBox);
             seriesGroupBox.Location = new Point(930, 277);
             seriesGroupBox.Name = "seriesGroupBox";
-            seriesGroupBox.Size = new Size(360, 152);
+            seriesGroupBox.Size = new Size(360, 145);
             seriesGroupBox.TabIndex = 3;
             seriesGroupBox.TabStop = false;
             seriesGroupBox.Text = "Series Configuration";
             // 
+            // linearCheckBox
+            // 
+            linearCheckBox.AutoSize = true;
+            linearCheckBox.Location = new Point(23, 57);
+            linearCheckBox.Name = "linearCheckBox";
+            linearCheckBox.Size = new Size(80, 19);
+            linearCheckBox.TabIndex = 4;
+            linearCheckBox.Text = "y = cos (x)";
+            linearCheckBox.UseVisualStyleBackColor = true;
+            // 
             // label4
             // 
             label4.AutoSize = true;
-            label4.Location = new Point(25, 115);
+            label4.Location = new Point(23, 113);
             label4.Name = "label4";
             label4.Size = new Size(62, 15);
             label4.TabIndex = 3;
@@ -203,7 +230,7 @@
             // 
             chartTypeComboBox.FormattingEnabled = true;
             chartTypeComboBox.Items.AddRange(new object[] { "Dot", "Column", "Spline", "Line" });
-            chartTypeComboBox.Location = new Point(93, 112);
+            chartTypeComboBox.Location = new Point(91, 110);
             chartTypeComboBox.Name = "chartTypeComboBox";
             chartTypeComboBox.Size = new Size(121, 23);
             chartTypeComboBox.TabIndex = 2;
@@ -212,7 +239,7 @@
             // randomCheckBox
             // 
             randomCheckBox.AutoSize = true;
-            randomCheckBox.Location = new Point(30, 69);
+            randomCheckBox.Location = new Point(23, 82);
             randomCheckBox.Name = "randomCheckBox";
             randomCheckBox.Size = new Size(71, 19);
             randomCheckBox.TabIndex = 1;
@@ -224,12 +251,48 @@
             customCheckBox.AutoSize = true;
             customCheckBox.Checked = true;
             customCheckBox.CheckState = CheckState.Checked;
-            customCheckBox.Location = new Point(29, 44);
+            customCheckBox.Location = new Point(23, 32);
             customCheckBox.Name = "customCheckBox";
             customCheckBox.Size = new Size(68, 19);
             customCheckBox.TabIndex = 0;
             customCheckBox.Text = "Custom";
             customCheckBox.UseVisualStyleBackColor = true;
+            // 
+            // menuStrip1
+            // 
+            menuStrip1.Items.AddRange(new ToolStripItem[] { fileToolStripMenuItem, instructionsToolStripMenuItem });
+            menuStrip1.Location = new Point(0, 0);
+            menuStrip1.Name = "menuStrip1";
+            menuStrip1.Size = new Size(1302, 24);
+            menuStrip1.TabIndex = 4;
+            menuStrip1.Text = "menuStrip1";
+            // 
+            // fileToolStripMenuItem
+            // 
+            fileToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { openToolStripMenuItem, saveToolStripMenuItem });
+            fileToolStripMenuItem.Name = "fileToolStripMenuItem";
+            fileToolStripMenuItem.Size = new Size(37, 20);
+            fileToolStripMenuItem.Text = "File";
+            // 
+            // openToolStripMenuItem
+            // 
+            openToolStripMenuItem.Name = "openToolStripMenuItem";
+            openToolStripMenuItem.Size = new Size(180, 22);
+            openToolStripMenuItem.Text = "Open";
+            openToolStripMenuItem.Click += openToolStripMenuItem_Click;
+            // 
+            // saveToolStripMenuItem
+            // 
+            saveToolStripMenuItem.Name = "saveToolStripMenuItem";
+            saveToolStripMenuItem.Size = new Size(180, 22);
+            saveToolStripMenuItem.Text = "Save";
+            saveToolStripMenuItem.Click += saveToolStripMenuItem_Click;
+            // 
+            // instructionsToolStripMenuItem
+            // 
+            instructionsToolStripMenuItem.Name = "instructionsToolStripMenuItem";
+            instructionsToolStripMenuItem.Size = new Size(81, 20);
+            instructionsToolStripMenuItem.Text = "Instructions";
             // 
             // Main
             // 
@@ -240,6 +303,8 @@
             Controls.Add(buildButton);
             Controls.Add(rangeSeries);
             Controls.Add(mainChart);
+            Controls.Add(menuStrip1);
+            MainMenuStrip = menuStrip1;
             Name = "Main";
             Text = "Main";
             ((System.ComponentModel.ISupportInitialize)mainChart).EndInit();
@@ -247,7 +312,10 @@
             rangeSeries.PerformLayout();
             seriesGroupBox.ResumeLayout(false);
             seriesGroupBox.PerformLayout();
+            menuStrip1.ResumeLayout(false);
+            menuStrip1.PerformLayout();
             ResumeLayout(false);
+            PerformLayout();
         }
 
         #endregion
@@ -267,5 +335,11 @@
         private Label rangeLabel;
         private Label label4;
         private ComboBox chartTypeComboBox;
+        private CheckBox linearCheckBox;
+        private MenuStrip menuStrip1;
+        private ToolStripMenuItem fileToolStripMenuItem;
+        private ToolStripMenuItem openToolStripMenuItem;
+        private ToolStripMenuItem saveToolStripMenuItem;
+        private ToolStripMenuItem instructionsToolStripMenuItem;
     }
 }
