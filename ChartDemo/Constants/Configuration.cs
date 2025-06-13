@@ -1,5 +1,6 @@
 ﻿using System.Windows.Forms.DataVisualization.Charting;
 using ChartDemo.SeriesBuilders;
+using ChartDemo.SeriesTransformers;
 
 namespace ChartDemo.Constants;
 
@@ -17,6 +18,14 @@ public static class Configuration
 
     public const string FileFilter = "Excel Files|*.xlsx";
 
+    public const string ShiftXTransformer = "shift X";
+
+    public const string ShiftYTransformer = "shift Y";
+    
+    public const string StretchXTransformer = "stretch X";
+
+    public const string StretchYTransformer = "stretch Y";
+
 
     public static readonly Dictionary<CustomChartType, SeriesChartType> SeriesMapping = new()
     {
@@ -31,5 +40,13 @@ public static class Configuration
         { RandomSeries, new RandomSeriesBuilder() },
         { CustomSeries, new CustomSeriesBuilder() },
         { CosSeries, new CosSeriesBuilder() }
+    };
+
+    public static readonly Dictionary<string, BaseTransformer> SeriesTransformers = new()
+    {
+        { ShiftXTransformer, new ShiftXTransformer() },
+        { ShiftYTransformer, new ShiftYTransformer() },
+        { StretchXTransformer, new StretchXTransformer() },
+        { StretchYTransformer, new StretchYTransformer() }
     };
 }

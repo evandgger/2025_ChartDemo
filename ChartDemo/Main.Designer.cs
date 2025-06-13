@@ -44,6 +44,7 @@
             startRangeInput = new TextBox();
             buildButton = new Button();
             seriesGroupBox = new GroupBox();
+            randomRangeLabel = new Label();
             linearCheckBox = new CheckBox();
             label4 = new Label();
             chartTypeComboBox = new ComboBox();
@@ -54,10 +55,19 @@
             openToolStripMenuItem = new ToolStripMenuItem();
             saveToolStripMenuItem = new ToolStripMenuItem();
             instructionsToolStripMenuItem = new ToolStripMenuItem();
+            transformationGroupBox = new GroupBox();
+            label5 = new Label();
+            applyTransformationButton = new Button();
+            coefficientInput = new TextBox();
+            stretchYCheckBox = new CheckBox();
+            stretchXCheckBox = new CheckBox();
+            shiftYCheckBox = new CheckBox();
+            shiftXCheckBox = new CheckBox();
             ((System.ComponentModel.ISupportInitialize)mainChart).BeginInit();
             rangeSeries.SuspendLayout();
             seriesGroupBox.SuspendLayout();
             menuStrip1.SuspendLayout();
+            transformationGroupBox.SuspendLayout();
             SuspendLayout();
             // 
             // mainChart
@@ -67,13 +77,19 @@
             chartArea1.AxisX.MajorGrid.Enabled = false;
             chartArea1.AxisX.MinorTickMark.Enabled = true;
             chartArea1.AxisX.Title = "X";
+            chartArea1.AxisX.TitleAlignment = StringAlignment.Far;
+            chartArea1.AxisX.TitleFont = new Font("Microsoft Sans Serif", 12F, FontStyle.Bold, GraphicsUnit.Point);
             chartArea1.AxisY.ArrowStyle = System.Windows.Forms.DataVisualization.Charting.AxisArrowStyle.Lines;
             chartArea1.AxisY.Crossing = 0D;
             chartArea1.AxisY.MajorGrid.Enabled = false;
             chartArea1.AxisY.MinorTickMark.Enabled = true;
             chartArea1.AxisY.TextOrientation = System.Windows.Forms.DataVisualization.Charting.TextOrientation.Horizontal;
             chartArea1.AxisY.Title = "Y";
+            chartArea1.AxisY.TitleAlignment = StringAlignment.Far;
+            chartArea1.AxisY.TitleFont = new Font("Microsoft Sans Serif", 12F, FontStyle.Bold, GraphicsUnit.Point);
             chartArea1.BackColor = Color.Transparent;
+            chartArea1.CursorX.IsUserSelectionEnabled = true;
+            chartArea1.CursorY.IsUserSelectionEnabled = true;
             chartArea1.Name = "ChartArea1";
             mainChart.ChartAreas.Add(chartArea1);
             legend1.Name = "Legend1";
@@ -195,6 +211,7 @@
             // 
             // seriesGroupBox
             // 
+            seriesGroupBox.Controls.Add(randomRangeLabel);
             seriesGroupBox.Controls.Add(linearCheckBox);
             seriesGroupBox.Controls.Add(label4);
             seriesGroupBox.Controls.Add(chartTypeComboBox);
@@ -206,6 +223,15 @@
             seriesGroupBox.TabIndex = 3;
             seriesGroupBox.TabStop = false;
             seriesGroupBox.Text = "Series Configuration";
+            // 
+            // randomRangeLabel
+            // 
+            randomRangeLabel.AutoSize = true;
+            randomRangeLabel.Location = new Point(102, 83);
+            randomRangeLabel.Name = "randomRangeLabel";
+            randomRangeLabel.Size = new Size(0, 15);
+            randomRangeLabel.TabIndex = 5;
+            randomRangeLabel.Visible = false;
             // 
             // linearCheckBox
             // 
@@ -245,6 +271,7 @@
             randomCheckBox.TabIndex = 1;
             randomCheckBox.Text = "Random";
             randomCheckBox.UseVisualStyleBackColor = true;
+            randomCheckBox.CheckedChanged += randomCheckBox_CheckedChanged;
             // 
             // customCheckBox
             // 
@@ -291,14 +318,98 @@
             // instructionsToolStripMenuItem
             // 
             instructionsToolStripMenuItem.Name = "instructionsToolStripMenuItem";
-            instructionsToolStripMenuItem.Size = new Size(81, 20);
-            instructionsToolStripMenuItem.Text = "Instructions";
+            instructionsToolStripMenuItem.Size = new Size(52, 20);
+            instructionsToolStripMenuItem.Text = "About";
+            instructionsToolStripMenuItem.Click += instructionsToolStripMenuItem_Click;
+            // 
+            // transformationGroupBox
+            // 
+            transformationGroupBox.Controls.Add(label5);
+            transformationGroupBox.Controls.Add(applyTransformationButton);
+            transformationGroupBox.Controls.Add(coefficientInput);
+            transformationGroupBox.Controls.Add(stretchYCheckBox);
+            transformationGroupBox.Controls.Add(stretchXCheckBox);
+            transformationGroupBox.Controls.Add(shiftYCheckBox);
+            transformationGroupBox.Controls.Add(shiftXCheckBox);
+            transformationGroupBox.Location = new Point(932, 428);
+            transformationGroupBox.Name = "transformationGroupBox";
+            transformationGroupBox.Size = new Size(358, 193);
+            transformationGroupBox.TabIndex = 5;
+            transformationGroupBox.TabStop = false;
+            transformationGroupBox.Text = "Transformation";
+            // 
+            // label5
+            // 
+            label5.AutoSize = true;
+            label5.Location = new Point(12, 158);
+            label5.Name = "label5";
+            label5.Size = new Size(65, 15);
+            label5.TabIndex = 6;
+            label5.Text = "Coefficient";
+            // 
+            // applyTransformationButton
+            // 
+            applyTransformationButton.Location = new Point(214, 155);
+            applyTransformationButton.Name = "applyTransformationButton";
+            applyTransformationButton.Size = new Size(127, 23);
+            applyTransformationButton.TabIndex = 5;
+            applyTransformationButton.Text = "Apply";
+            applyTransformationButton.UseVisualStyleBackColor = true;
+            applyTransformationButton.Click += applyTransformationButton_Click;
+            // 
+            // coefficientInput
+            // 
+            coefficientInput.Location = new Point(89, 155);
+            coefficientInput.Name = "coefficientInput";
+            coefficientInput.Size = new Size(100, 23);
+            coefficientInput.TabIndex = 4;
+            // 
+            // stretchYCheckBox
+            // 
+            stretchYCheckBox.AutoSize = true;
+            stretchYCheckBox.Location = new Point(12, 117);
+            stretchYCheckBox.Name = "stretchYCheckBox";
+            stretchYCheckBox.Size = new Size(72, 19);
+            stretchYCheckBox.TabIndex = 3;
+            stretchYCheckBox.Text = "stretch Y";
+            stretchYCheckBox.UseVisualStyleBackColor = true;
+            // 
+            // stretchXCheckBox
+            // 
+            stretchXCheckBox.AutoSize = true;
+            stretchXCheckBox.Location = new Point(12, 92);
+            stretchXCheckBox.Name = "stretchXCheckBox";
+            stretchXCheckBox.Size = new Size(72, 19);
+            stretchXCheckBox.TabIndex = 2;
+            stretchXCheckBox.Text = "stretch X";
+            stretchXCheckBox.UseVisualStyleBackColor = true;
+            // 
+            // shiftYCheckBox
+            // 
+            shiftYCheckBox.AutoSize = true;
+            shiftYCheckBox.Location = new Point(12, 67);
+            shiftYCheckBox.Name = "shiftYCheckBox";
+            shiftYCheckBox.Size = new Size(59, 19);
+            shiftYCheckBox.TabIndex = 1;
+            shiftYCheckBox.Text = "shift Y";
+            shiftYCheckBox.UseVisualStyleBackColor = true;
+            // 
+            // shiftXCheckBox
+            // 
+            shiftXCheckBox.AutoSize = true;
+            shiftXCheckBox.Location = new Point(12, 42);
+            shiftXCheckBox.Name = "shiftXCheckBox";
+            shiftXCheckBox.Size = new Size(59, 19);
+            shiftXCheckBox.TabIndex = 0;
+            shiftXCheckBox.Text = "shift X";
+            shiftXCheckBox.UseVisualStyleBackColor = true;
             // 
             // Main
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(1302, 896);
+            Controls.Add(transformationGroupBox);
             Controls.Add(seriesGroupBox);
             Controls.Add(buildButton);
             Controls.Add(rangeSeries);
@@ -314,6 +425,8 @@
             seriesGroupBox.PerformLayout();
             menuStrip1.ResumeLayout(false);
             menuStrip1.PerformLayout();
+            transformationGroupBox.ResumeLayout(false);
+            transformationGroupBox.PerformLayout();
             ResumeLayout(false);
             PerformLayout();
         }
@@ -341,5 +454,14 @@
         private ToolStripMenuItem openToolStripMenuItem;
         private ToolStripMenuItem saveToolStripMenuItem;
         private ToolStripMenuItem instructionsToolStripMenuItem;
+        private GroupBox transformationGroupBox;
+        private Label label5;
+        private Button applyTransformationButton;
+        private TextBox coefficientInput;
+        private CheckBox stretchYCheckBox;
+        private CheckBox stretchXCheckBox;
+        private CheckBox shiftYCheckBox;
+        private CheckBox shiftXCheckBox;
+        private Label randomRangeLabel;
     }
 }

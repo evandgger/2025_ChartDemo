@@ -1,4 +1,5 @@
 using ChartDemo.Constants;
+using ChartDemo.Forms;
 using ChartDemo.Infrastructure.Extensions;
 using ChartDemo.Infrastructure.Helpers;
 using ChartDemo.Models;
@@ -12,6 +13,10 @@ namespace ChartDemo
         {
             InitializeComponent();
         }
+
+        public decimal? RandomMinimum { get; set; }
+
+        public decimal? RandomMaximum { get; set; }
 
         private void buildButton_Click(object sender, EventArgs e)
         {
@@ -48,7 +53,7 @@ namespace ChartDemo
 
         private void DrawSeries(SeriesConfiguration configuration)
         {
-            var selectedSeries = GetListOfCheckedSeries();
+            var selectedSeries = GetListOfCheckBoxes(seriesGroupBox);
 
             foreach (var seriesName in selectedSeries)
             {
@@ -73,8 +78,8 @@ namespace ChartDemo
                 result.XValues.Add(currentStep);
             }
 
-            result.RandomLowerBorder = -10;
-            result.RandomUpperBorder = 10;
+            result.RandomLowerBorder = RandomMinimum ?? SeriesConstants.DefaultStartRange;
+            result.RandomUpperBorder = RandomMaximum ?? SeriesConstants.DefaultEndRange;
 
             return result;
         }
@@ -106,8 +111,11 @@ namespace ChartDemo
             {
                 if (configuration.StartRange.IsZero())
                 {
-                    startRangeInput.SetDecimalValue(SeriesConstants.DefaultStartRange);
-                    endRangeInput.SetDecimalValue(SeriesConstants.DefaultEndRange);
+                    configuration.StartRange = SeriesConstants.DefaultStartRange;
+                    configuration.EndRange = SeriesConstants.DefaultEndRange;
+
+                    startRangeInput.SetDecimalValue(configuration.StartRange);
+                    endRangeInput.SetDecimalValue(configuration.EndRange);
 
                     MessageBoxHelper.ShowWarning(ValidationMessage.RangeIsZeroForBoth);
                 }
@@ -115,10 +123,16 @@ namespace ChartDemo
                 {
                     var newRange = -configuration.EndRange;
 
-                    var inputToUpdate = newRange.IsPositive() ?
-                        endRangeInput : startRangeInput;
-
-                    inputToUpdate.SetDecimalValue(newRange);
+                    if (newRange.IsPositive())
+                    {
+                        configuration.EndRange = newRange;
+                        endRangeInput.SetDecimalValue(configuration.EndRange);
+                    }
+                    else
+                    {
+                        configuration.StartRange = newRange;
+                        startRangeInput.SetDecimalValue(configuration.StartRange);
+                    }
 
                     MessageBoxHelper.ShowWarning(ValidationMessage.RangeIsTheSame);
                 }
@@ -138,16 +152,31 @@ namespace ChartDemo
 
         private void ValidateStep(InputConfiguration configuration)
         {
+            var rangeLength = configuration.EndRange - configuration.StartRange;
+
+            if (configuration.Step > rangeLength)
+            {
+                configuration.Step = SeriesConstants.DefaultStep;
+
+                stepInput.SetDecimalValue(configuration.Step);
+
+                MessageBoxHelper.ShowWarning(ValidationMessage.StepIsGreaterThanRange);
+            }
+
             if (configuration.Step.IsZero())
             {
-                stepInput.SetDecimalValue(SeriesConstants.DefaultStep);
+                configuration.Step = SeriesConstants.DefaultStep;
+
+                stepInput.SetDecimalValue(configuration.Step);
 
                 MessageBoxHelper.ShowWarning(ValidationMessage.StepIsZero);
             }
 
             if (configuration.Step.IsNegative())
             {
-                stepInput.SetDecimalValue(Math.Abs(configuration.Step));
+                configuration.Step = Math.Abs(configuration.Step);
+
+                stepInput.SetDecimalValue(configuration.Step);
 
                 MessageBoxHelper.ShowWarning(ValidationMessage.StepIsNegative);
             }
@@ -163,11 +192,11 @@ namespace ChartDemo
             }
         }
 
-        private List<string> GetListOfCheckedSeries()
+        private List<string> GetListOfCheckBoxes(GroupBox groupBox)
         {
             var result = new List<string>();
 
-            var controls = seriesGroupBox.Controls;
+            var controls = groupBox.Controls;
 
             foreach (var control in controls)
             {
@@ -218,33 +247,46 @@ namespace ChartDemo
 
         private void saveToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            // Validate if series exists
+            var inputStatuses = new List<bool>();
 
-            try
+            inputStatuses.Add(startRangeInput.TryParseDecimalValue(out var startRange, ValidationMessage.StartRangeRequired));
+            inputStatuses.Add(endRangeInput.TryParseDecimalValue(out var endRange, ValidationMessage.EndRangeRequired));
+            inputStatuses.Add(stepInput.TryParseDecimalValue(out var step, ValidationMessage.StepRequired));
+
+            var seriesAreNotEmpty = mainChart.Series.SeriesAreNotEmpty();
+
+            if (inputStatuses.AreValid() && seriesAreNotEmpty)
             {
-                using (var dialog = new SaveFileDialog())
+                try
                 {
-                    dialog.OverwritePrompt = true;
-
-                    dialog.Title = Configuration.SaveDialogTitle;
-                    dialog.Filter = Configuration.FileFilter;
-
-                    if (dialog.ShowDialog() == DialogResult.OK)
+                    using (var dialog = new SaveFileDialog())
                     {
-                        var filePath = dialog.FileName;
+                        dialog.OverwritePrompt = true;
 
-                        if (File.Exists(filePath))
+                        dialog.Title = Configuration.SaveDialogTitle;
+                        dialog.Filter = Configuration.FileFilter;
+
+                        if (dialog.ShowDialog() == DialogResult.OK)
                         {
-                            File.Delete(filePath);
-                        }
+                            var filePath = dialog.FileName;
 
-                        SaveChartToExcel(filePath);
+                            if (File.Exists(filePath))
+                            {
+                                File.Delete(filePath);
+                            }
+
+                            SaveChartToExcel(filePath);
+                        }
                     }
                 }
+                catch (Exception exception)
+                {
+                    MessageBox.Show(exception.Message);
+                }
             }
-            catch (Exception exception)
+            else
             {
-                MessageBox.Show(exception.Message);
+                MessageBoxHelper.ShowWarning("Chart's configuration is not valid");
             }
         }
 
@@ -270,13 +312,26 @@ namespace ChartDemo
             column = 1;
 
             detailsWorksheet.Cells[row, column++].Value = "Step";
-            detailsWorksheet.Cells[row, column].Value = stepInput.Text;
+            detailsWorksheet.Cells[row++, column].Value = stepInput.Text;
 
-            var checkedSeries = GetListOfCheckedSeries();
+            if (RandomMinimum.HasValue && RandomMaximum.HasValue)
+            {
+                column = 1;
+
+                detailsWorksheet.Cells[row, column++].Value = "Random minimum";
+                detailsWorksheet.Cells[row++, column].Value = RandomMinimum.Value;
+
+                column = 1;
+
+                detailsWorksheet.Cells[row, column++].Value = "Random minimum";
+                detailsWorksheet.Cells[row, column].Value = RandomMaximum.Value;
+            }
+            
+            var checkedSeries = GetListOfCheckBoxes(seriesGroupBox);
 
             foreach (var seriesName in checkedSeries)
             {
-                row = 1; 
+                row = 1;
                 column = 1;
 
                 var series = mainChart.Series[seriesName];
@@ -310,9 +365,30 @@ namespace ChartDemo
                 {
                     var filePath = dialog.FileName;
 
+                    randomCheckBox.CheckedChanged -= randomCheckBox_CheckedChanged;
+
+                    DisableAllSeries();
+
                     OpenExcelFile(filePath);
+
+                    randomCheckBox.CheckedChanged += randomCheckBox_CheckedChanged;
                 }
             }
+        }
+
+        private void DisableAllSeries()
+        {
+            var controls = seriesGroupBox.Controls;
+
+            foreach (var control in controls)
+            {
+                if (control is CheckBox checkBox)
+                {
+                    checkBox.Checked = false;
+                }
+            }
+
+            ClearSeries();
         }
 
         private void OpenExcelFile(string filePath)
@@ -332,12 +408,25 @@ namespace ChartDemo
                     startRangeInput.SetDecimalValue(startRangeValue);
                     endRangeInput.SetDecimalValue(endRangeValue);
                     stepInput.SetDecimalValue(stepRangeValue);
+
+                    var randomMinimumText = worksheet.Cells[4, 2].Value;
+                    var randomMaximumText = worksheet.Cells[5, 2].Value;
+
+                    if (!string.IsNullOrWhiteSpace(randomMinimumText?.ToString()) &&
+                        !string.IsNullOrWhiteSpace(randomMaximumText?.ToString()))
+                    {
+                        var randomMinimum = Convert.ToDecimal(randomMinimumText);
+                        var randomMaximum = Convert.ToDecimal(randomMaximumText);
+
+                        RandomMinimum = randomMinimum;
+                        RandomMaximum = randomMaximum;
+
+                        SetRandomRange();
+                    }
                 }
                 else
                 {
                     var series = mainChart.Series[worksheet.Name];
-
-                    series.Points.Clear();
 
                     var controls = seriesGroupBox.Controls;
 
@@ -345,7 +434,17 @@ namespace ChartDemo
                     {
                         if (control is CheckBox checkBox && checkBox.Text == worksheet.Name)
                         {
-                            checkBox.Checked = true;
+                            if (checkBox.Text == Configuration.RandomSeries)
+                            {
+                                if (RandomMaximum.HasValue && RandomMinimum.HasValue)
+                                {
+                                    checkBox.Checked = true;
+                                }
+                            }
+                            else
+                            {
+                                checkBox.Checked = true;
+                            }
                         }
                     }
 
@@ -365,6 +464,93 @@ namespace ChartDemo
                             Convert.ToDecimal(yValue));
                     }
                 }
+            }
+        }
+
+        private void applyTransformationButton_Click(object sender, EventArgs e)
+        {
+            var isCoefficientValid = coefficientInput.TryParseDecimalValue(
+                out var coefficient,
+                ValidationMessage.CoefficientIsRequired);
+
+            var seriesAreNotEmpty = mainChart.Series.SeriesAreNotEmpty();
+            var transformers = GetListOfCheckBoxes(transformationGroupBox);
+
+            if (isCoefficientValid && seriesAreNotEmpty && transformers.Any())
+            {
+                foreach (var transformerName in transformers)
+                {
+                    var transformer = Configuration.SeriesTransformers[transformerName];
+
+                    transformer.Transform(mainChart.Series, coefficient);
+                }
+
+                mainChart.Invalidate();
+            }
+
+            else
+            {
+                MessageBoxHelper.ShowWarning("Chart's configuration is not valid");
+            }
+        }
+
+        private void instructionsToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            var aboutForm = new AboutForm();
+
+            aboutForm.ShowDialog(this);
+        }
+
+        private void randomCheckBox_CheckedChanged(object sender, EventArgs e)
+        {
+            if (randomCheckBox.Checked)
+            {
+                var randomForm = new RandomForm();
+
+                randomForm.FormClosed += (sender, args) =>
+                {
+                    if (randomForm.RandomMinimum.HasValue && randomForm.RandomMaximum.HasValue)
+                    {
+                        RandomMinimum = randomForm.RandomMinimum.Value;
+                        RandomMaximum = randomForm.RandomMaximum.Value;
+
+                        SetRandomRange();
+                    }
+                    else
+                    {
+                        RandomMinimum = null;
+                        RandomMaximum = null;
+
+                        randomRangeLabel.Text = string.Empty;
+                        randomRangeLabel.Visible = false;
+
+                        randomCheckBox.Checked = false;
+                    }
+                };
+
+                randomForm.ShowDialog(this);
+            }
+            else
+            {
+                RandomMinimum = null;
+                RandomMaximum = null;
+
+                randomRangeLabel.Text = string.Empty;
+                randomRangeLabel.Visible = false;
+            }
+        }
+
+        private void SetRandomRange()
+        {
+            if (RandomMinimum.HasValue && RandomMaximum.HasValue)
+            {
+                randomRangeLabel.Text = @$"Random range: [{RandomMinimum};{RandomMaximum}]";
+                randomRangeLabel.Visible = true;
+            }
+            else
+            {
+                randomRangeLabel.Text = string.Empty;
+                randomRangeLabel.Visible = false;
             }
         }
     }
